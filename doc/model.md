@@ -9,7 +9,7 @@ Object --> Xref
 Attribute --* Object
 AttributeTag --* Attribute
 Object --> Object
-Diagram --* Pacage
+Diagram --* Package
 Diagramlink --> Diagram
 Connector --> Object : Target
 Connector --> Object : Source
