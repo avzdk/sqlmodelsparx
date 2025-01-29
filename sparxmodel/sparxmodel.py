@@ -29,6 +29,16 @@ class Attribute(SQLModel, table=True):
     object_id: int = Field(foreign_key="t_object.object_id")
     object: "Object" = Relationship(back_populates="attributes")
 
+class ObjectProperty(SQLModel, table=True):
+    __tablename__ = 't_objectproperties'
+    propertyID: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    object_id: int = Field(foreign_key="t_object.object_id")
+    property: str
+    value: str
+    notes: str
+    object: "Object" = Relationship(back_populates="properties")
+
+
 class Package(SQLModel, table=True):
     __tablename__ = 't_package'
     Package_ID: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
