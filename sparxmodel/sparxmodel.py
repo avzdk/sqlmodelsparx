@@ -16,6 +16,11 @@ class Object(SQLModel, table=True):
     object_id: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
     name: str 
     attributes: list["Attribute"] = Relationship(back_populates="object")
+    properties: list["ObjectProperty"] = Relationship(back_populates="object")
+    object_type : str 
+    Note : str
+    Stereotype : str
+    Abstract : bool
 
 class Attribute(SQLModel, table=True):
     __tablename__ = 't_attribute'
