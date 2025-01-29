@@ -17,7 +17,22 @@ ConnectorTag --* Connector
 Diagramlink --> Connector
 ObjectProperties --* Object
 
+class Object {
+    object_id
+    name
+    object_type
+    note
+    stereotype
+    abstract
+}
 
+class ObjectProperties{
+    propertyID
+    object_id
+    property
+    value
+    notes
+}
 
 
 ```
