@@ -23,6 +23,10 @@ def dumpObject(item) -> dict:
             attrDict[tagDict['property']]=tagDict['value']
         attrList.append(attrDict)
     objDict['attributes']=attrList
+
+    objDict['diagrams'] = []
+    for do in item.diagramobjects:
+        objDict['diagrams'].append(do.diagram.model_dump())
     
     return objDict
 
@@ -52,5 +56,5 @@ if __name__ == '__main__':
     json_model : List[dict] =[]
     for obj in objects:
         json_model.append(dumpObject(obj))
-    #with open('output.json', 'w') as f: json.dump(d, f, indent=4)
+    with open('output.json', 'w') as f: json.dump(json_model, f, indent=4)
 
