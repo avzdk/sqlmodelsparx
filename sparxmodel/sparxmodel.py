@@ -20,6 +20,7 @@ class Object(SQLModel, table=True):
     Abstract : bool
     attributes: list["Attribute"] = Relationship(back_populates="object")
     properties: list["ObjectProperty"] = Relationship(back_populates="object")
+    ea_guid: str
 
 class Attribute(SQLModel, table=True):
     __tablename__ = 't_attribute'
@@ -28,6 +29,11 @@ class Attribute(SQLModel, table=True):
     object_id: int = Field(foreign_key="t_object.object_id")
     object: "Object" = Relationship(back_populates="attributes")
     tags: list["AttributeTag"] = Relationship(back_populates="attribute")
+    stereotype: str
+    LowerBound: str
+    UpperBound: str
+    Derived: bool
+    ea_guid: str
 
 class ObjectProperty(SQLModel, table=True):
     __tablename__ = 't_objectproperties'
