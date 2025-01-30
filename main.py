@@ -28,15 +28,28 @@ def dump(items):
         model.append(objDict)
     return model
 
+
+def ObjectsInPackageRecursive(package : sparxmodel.Package) -> List[sparxmodel.Object]:
+    print(f"Package: {package.name}")   
+    objects: List[sparxmodel.Object] =[]
+    for subpackage in package.children:
+        objects=ObjectsInPackageRecursive(subpackage)
+    for obj in package.objects:
+        if obj.object_type != 'Package':
+            print(f"Object: {obj.name}")
+            objects.append(obj)
+    return objects
+
 if __name__ == '__main__':
     load_dotenv()
     DATABASE_URL=os.environ.get('DATABASE_URL')
 
     model = sparxmodel.Sparxmodel(DATABASE_URL)
  
-    q = select(sparxmodel.Object).where(sparxmodel.Object.name == 'FagelementansvarligEnhed')  
-    items :List[sparxmodel.Object] = model.exec(q).all()
-    d=dump(items)
+    q = select(sparxmodel.Package).where(sparxmodel.Package.name == 'SIS DEV5')
+    package = model.exec(q).first()
+    objects = ObjectsInPackageRecursive(package)
+    d=dump(objects)
     with open('output.json', 'w') as f:
         json.dump(d, f, indent=4)
 
