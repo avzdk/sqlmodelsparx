@@ -21,7 +21,7 @@ class Object(SQLModel, table=True):
     attributes: list["Attribute"] = Relationship(back_populates="object")
     properties: list["ObjectProperty"] = Relationship(back_populates="object")
     ea_guid: str
-    package_id: int = Field(foreign_key="t_package.Package_ID")
+    package_id: int = Field(foreign_key="t_package.package_id")
     package: "Package" = Relationship(back_populates="objects")
 
 class Attribute(SQLModel, table=True):
@@ -57,11 +57,21 @@ class AttributeTag(SQLModel, table=True):
 
 class Package(SQLModel, table=True):
     __tablename__ = 't_package'
-    Package_ID: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    package_id: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
     objects: list["Object"] = Relationship(back_populates="package")
     name: str
-    parent_id: int = Field(foreign_key="t_package.Package_ID")
+    parent_id: int = Field(foreign_key="t_package.package_id")
     children: list["Package"] = Relationship()
+    ea_guid: str
+    diagrams: list["Diagram"] = Relationship(back_populates="package")
+
+class Diagram(SQLModel, table=True):
+    __tablename__ = 't_diagram'
+    diagram_id : int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    name: str
+    package_id: int = Field(foreign_key="t_package.package_id")
+    package: "Package" = Relationship(back_populates="diagrams")
+    ea_guid: str
 
 if __name__ == '__main__':
     None

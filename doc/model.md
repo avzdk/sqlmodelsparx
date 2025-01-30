@@ -4,6 +4,7 @@
 
 classDiagram
 
+Package --> Package
 Object --* Package
 Object --> Xref
 Attribute --* Object
@@ -11,6 +12,8 @@ AttributeTag --* Attribute
 Object --> Object
 Diagram --* Package
 Diagramlink --> Diagram
+Diagramobjects --> Object
+Diagramobjects --> Diagram
 Connector --> Object : Target
 Connector --> Object : Source
 ConnectorTag --* Connector
