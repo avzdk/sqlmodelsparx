@@ -23,6 +23,7 @@ class Object(SQLModel, table=True):
     ea_guid: str
     package_id: int = Field(foreign_key="t_package.package_id")
     package: "Package" = Relationship(back_populates="objects")
+    diagramobjects: list["Diagramobject"] = Relationship(back_populates="object")
 
 class Attribute(SQLModel, table=True):
     __tablename__ = 't_attribute'
@@ -71,7 +72,16 @@ class Diagram(SQLModel, table=True):
     name: str
     package_id: int = Field(foreign_key="t_package.package_id")
     package: "Package" = Relationship(back_populates="diagrams")
+    diagramobjects: list["Diagramobject"] = Relationship(back_populates="diagram")
     ea_guid: str
+
+class Diagramobject(SQLModel, table=True):
+    __tablename__ = 't_diagramobjects'
+    id: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    diagram_id: int = Field(foreign_key="t_diagram.diagram_id")
+    object_id: int = Field(foreign_key="t_object.object_id")
+    diagram: "Diagram" = Relationship(back_populates="diagramobjects")
+    object: "Object" = Relationship(back_populates="diagramobjects")
 
 if __name__ == '__main__':
     None
