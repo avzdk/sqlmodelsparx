@@ -77,7 +77,7 @@ class Diagram(SQLModel, table=True):
 
 class Diagramobject(SQLModel, table=True):
     __tablename__ = 't_diagramobjects'
-    id: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    instance_id: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
     diagram_id: int = Field(foreign_key="t_diagram.diagram_id")
     object_id: int = Field(foreign_key="t_object.object_id")
     diagram: "Diagram" = Relationship(back_populates="diagramobjects")
