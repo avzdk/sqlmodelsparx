@@ -21,6 +21,8 @@ class Object(SQLModel, table=True):
     attributes: list["Attribute"] = Relationship(back_populates="object")
     properties: list["ObjectProperty"] = Relationship(back_populates="object")
     ea_guid: str
+    package_id: int = Field(foreign_key="t_package.Package_ID")
+    package: "Package" = Relationship(back_populates="objects")
 
 class Attribute(SQLModel, table=True):
     __tablename__ = 't_attribute'
@@ -56,7 +58,10 @@ class AttributeTag(SQLModel, table=True):
 class Package(SQLModel, table=True):
     __tablename__ = 't_package'
     Package_ID: int | None = Field(default=None, primary_key=True)   #None = autoincrement in database
+    objects: list["Object"] = Relationship(back_populates="package")
     name: str
+    parent_id: int = Field(foreign_key="t_package.Package_ID")
+    children: list["Package"] = Relationship()
 
 if __name__ == '__main__':
     None
