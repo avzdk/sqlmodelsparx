@@ -24,6 +24,11 @@ def dump(items):
                 attrDict[tagDict['property']]=tagDict['value']
             attrList.append(attrDict)
         objDict['attributes']=attrList
+
+        diagramList=[]
+        for diagramobj in item.diagramobjects:
+            diagram= diagramobj.diagram.model_dump()
+            diagramList.append(diagram)
         model.append(objDict)
     return model
 
