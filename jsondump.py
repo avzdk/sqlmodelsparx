@@ -8,29 +8,23 @@ import json
 
 
 
-def dump(items):
-    model=[]
-    for item in items:
-        objDict=item.model_dump()
-        for prop in item.properties:
-            propDict=prop.model_dump()
-            objDict[propDict['property']]=propDict['value']            
-        
-        attrList=[]
-        for attr in item.attributes:
-            attrDict=attr.model_dump()
-            for tag in attr.tags:
-                tagDict=tag.model_dump()
-                attrDict[tagDict['property']]=tagDict['value']
-            attrList.append(attrDict)
-        objDict['attributes']=attrList
-
-        diagramList=[]
-        for diagramobj in item.diagramobjects:
-            diagram= diagramobj.diagram.model_dump()
-            diagramList.append(diagram)
-        model.append(objDict)
-    return model
+def dumpObject(item) -> dict:
+    
+    objDict=item.model_dump()
+    for prop in item.properties:
+        propDict=prop.model_dump()
+        objDict[propDict['property']]=propDict['value']            
+    
+    attrList=[]
+    for attr in item.attributes:
+        attrDict=attr.model_dump()
+        for tag in attr.tags:
+            tagDict=tag.model_dump()
+            attrDict[tagDict['property']]=tagDict['value']
+        attrList.append(attrDict)
+    objDict['attributes']=attrList
+    
+    return objDict
 
 
 def ObjectsInPackageRecursive(package : sparxmodel.Package) -> List[sparxmodel.Object]:
@@ -55,6 +49,8 @@ if __name__ == '__main__':
     package = model.exec(q).first()
     objects = ObjectsInPackageRecursive(package)
     print(f"Found {len(objects)} objects in package {package.name}")
-    d=dump(objects)
+    json_model : List[dict] =[]
+    for obj in objects:
+        json_model.append(dumpObject(obj))
     #with open('output.json', 'w') as f: json.dump(d, f, indent=4)
 
